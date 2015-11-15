@@ -1,0 +1,28 @@
+mysql:
+    image: mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: "fs85kaNfau4%52"
+        MYSQL_DATABASE: "radius"
+        MYSQL_USER: "radius"
+        MYSQL_PASSWORD: "radpass"
+
+radius:
+    # build: ./radius
+    image: connors511/radius
+    links:
+        - "mysql"
+
+daloradius:
+    build: ./daloradius
+    # image: tutum/apache-php
+    # image: connors511/daloradius
+    environment:
+        DALORADIUS_DB_HOST: "mysql"
+        DALORADIUS_DB_PORT: "3306"
+        DALORADIUS_DB_USER: "radius"
+        DALORADIUS_DB_PASS: "radpass"
+        DALORADIUS_DB_NAME: "radius"
+    links:
+        - "mysql"
+    ports:
+        - "9090:80"
